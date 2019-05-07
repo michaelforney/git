@@ -275,7 +275,7 @@ static struct option builtin_merge_options[] = {
 		 N_("allow merging unrelated histories")),
 	OPT_SET_INT(0, "progress", &show_progress, N_("force progress reporting"), 1),
 	{ OPTION_STRING, 'S', "gpg-sign", &sign_commit, N_("key-id"),
-	  N_("GPG sign commit"), PARSE_OPT_OPTARG, NULL, (intptr_t) "" },
+	  N_("GPG sign commit"), PARSE_OPT_OPTARG, NULL, { .s = "" } },
 	OPT_BOOL(0, "overwrite-ignore", &overwrite_ignore, N_("update ignored files (default)")),
 	OPT_BOOL(0, "signoff", &signoff, N_("add Signed-off-by:")),
 	OPT_BOOL(0, "verify", &verify_msg, N_("verify commit-msg hook")),

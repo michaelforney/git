@@ -76,7 +76,7 @@ static int recurse_submodules_cb(const struct option *opt,
 		string_list_append((struct string_list *)opt->value, arg);
 	else
 		string_list_append((struct string_list *)opt->value,
-				   (const char *)opt->defval);
+				   opt->defval.s);
 
 	return 0;
 }
@@ -101,10 +101,10 @@ static struct option builtin_clone_options[] = {
 	{ OPTION_CALLBACK, 0, "recursive", &option_recurse_submodules,
 	  N_("pathspec"), N_("initialize submodules in the clone"),
 	  PARSE_OPT_OPTARG | PARSE_OPT_HIDDEN, recurse_submodules_cb,
-	  (intptr_t)"." },
+	  { .s = "." } },
 	{ OPTION_CALLBACK, 0, "recurse-submodules", &option_recurse_submodules,
 	  N_("pathspec"), N_("initialize submodules in the clone"),
-	  PARSE_OPT_OPTARG, recurse_submodules_cb, (intptr_t)"." },
+	  PARSE_OPT_OPTARG, recurse_submodules_cb, { .s = "." } },
 	OPT_INTEGER('j', "jobs", &max_jobs,
 		    N_("number of submodules cloned in parallel")),
 	OPT_STRING(0, "template", &option_template, N_("template-directory"),

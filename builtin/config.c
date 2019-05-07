@@ -85,7 +85,7 @@ static int option_parse_type(const struct option *opt, const char *arg,
 	 * To support '--<type>' style flags, begin with new_type equal to
 	 * opt->defval.
 	 */
-	new_type = opt->defval;
+	new_type = opt->defval.i;
 	if (!new_type) {
 		if (!strcmp(arg, "bool"))
 			new_type = TYPE_BOOL;

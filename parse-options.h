@@ -122,7 +122,10 @@ struct option {
 
 	int flags;
 	parse_opt_cb *callback;
-	intptr_t defval;
+	union {
+		intptr_t i;
+		const char *s;
+	} defval;
 	parse_opt_ll_cb *ll_callback;
 	intptr_t extra;
 };

@@ -1339,14 +1339,14 @@ int cmd_status(int argc, const char **argv, const char *prefix)
 		{ OPTION_STRING, 'u', "untracked-files", &untracked_files_arg,
 		  N_("mode"),
 		  N_("show untracked files, optional modes: all, normal, no. (Default: all)"),
-		  PARSE_OPT_OPTARG, NULL, (intptr_t)"all" },
+		  PARSE_OPT_OPTARG, NULL, { .s = "all" } },
 		{ OPTION_STRING, 0, "ignored", &ignored_arg,
 		  N_("mode"),
 		  N_("show ignored files, optional modes: traditional, matching, no. (Default: traditional)"),
-		  PARSE_OPT_OPTARG, NULL, (intptr_t)"traditional" },
+		  PARSE_OPT_OPTARG, NULL, { .s = "traditional" } },
 		{ OPTION_STRING, 0, "ignore-submodules", &ignore_submodule_arg, N_("when"),
 		  N_("ignore changes to submodules, optional when: all, dirty, untracked. (Default: all)"),
-		  PARSE_OPT_OPTARG, NULL, (intptr_t)"all" },
+		  PARSE_OPT_OPTARG, NULL, { .s = "all" } },
 		OPT_COLUMN(0, "column", &s.colopts, N_("list untracked files in columns")),
 		OPT_BOOL(0, "no-renames", &no_renames, N_("do not detect renames")),
 		{ OPTION_CALLBACK, 'M', "find-renames", &rename_score_arg,
@@ -1494,7 +1494,7 @@ int cmd_commit(int argc, const char **argv, const char *prefix)
 		OPT_STRING(0, "cleanup", &cleanup_arg, N_("default"), N_("how to strip spaces and #comments from message")),
 		OPT_BOOL(0, "status", &include_status, N_("include status in commit message template")),
 		{ OPTION_STRING, 'S', "gpg-sign", &sign_commit, N_("key-id"),
-		  N_("GPG sign commit"), PARSE_OPT_OPTARG, NULL, (intptr_t) "" },
+		  N_("GPG sign commit"), PARSE_OPT_OPTARG, NULL, { .s = "" } },
 		/* end commit message options */
 
 		OPT_GROUP(N_("Commit contents options")),
@@ -1519,7 +1519,7 @@ int cmd_commit(int argc, const char **argv, const char *prefix)
 			 N_("terminate entries with NUL")),
 		OPT_BOOL(0, "amend", &amend, N_("amend previous commit")),
 		OPT_BOOL(0, "no-post-rewrite", &no_post_rewrite, N_("bypass post-rewrite hook")),
-		{ OPTION_STRING, 'u', "untracked-files", &untracked_files_arg, N_("mode"), N_("show untracked files, optional modes: all, normal, no. (Default: all)"), PARSE_OPT_OPTARG, NULL, (intptr_t)"all" },
+		{ OPTION_STRING, 'u', "untracked-files", &untracked_files_arg, N_("mode"), N_("show untracked files, optional modes: all, normal, no. (Default: all)"), PARSE_OPT_OPTARG, NULL, { .s = "all" } },
 		/* end commit contents options */
 
 		OPT_HIDDEN_BOOL(0, "allow-empty", &allow_empty,

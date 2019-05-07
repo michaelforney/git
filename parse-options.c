@@ -30,7 +30,7 @@ static enum parse_opt_result get_arg(struct parse_opt_ctx_t *p,
 		*arg = p->opt;
 		p->opt = NULL;
 	} else if (p->argc == 1 && (opt->flags & PARSE_OPT_LASTARG_DEFAULT)) {
-		*arg = (const char *)opt->defval;
+		*arg = opt->defval.s;
 	} else if (p->argc > 1) {
 		p->argc--;
 		*arg = *++p->argv;
@@ -63,7 +63,7 @@ static enum parse_opt_result opt_command_mode_error(
 		if (that == opt ||
 		    that->type != OPTION_CMDMODE ||
 		    that->value != opt->value ||
-		    that->defval != *(int *)opt->value)
+		    that->defval.i != *(int *)opt->value)
 			continue;
 
 		if (that->long_name)
@@ -101,16 +101,16 @@ static enum parse_opt_result get_value(struct parse_opt_ctx_t *p,
 
 	case OPTION_BIT:
 		if (unset)
-			*(int *)opt->value &= ~opt->defval;
+			*(int *)opt->value &= ~opt->defval.i;
 		else
-			*(int *)opt->value |= opt->defval;
+			*(int *)opt->value |= opt->defval.i;
 		return 0;
 
 	case OPTION_NEGBIT:
 		if (unset)
-			*(int *)opt->value |= opt->defval;
+			*(int *)opt->value |= opt->defval.i;
 		else
-			*(int *)opt->value &= ~opt->defval;
+			*(int *)opt->value &= ~opt->defval.i;
 		return 0;
 
 	case OPTION_BITOP:
@@ -127,7 +127,7 @@ static enum parse_opt_result get_value(struct parse_opt_ctx_t *p,
 		return 0;
 
 	case OPTION_SET_INT:
-		*(int *)opt->value = unset ? 0 : opt->defval;
+		*(int *)opt->value = unset ? 0 : opt->defval.i;
 		return 0;
 
 	case OPTION_CMDMODE:
@@ -135,16 +135,16 @@ static enum parse_opt_result get_value(struct parse_opt_ctx_t *p,
 		 * Giving the same mode option twice, although is unnecessary,
 		 * is not a grave error, so let it pass.
 		 */
-		if (*(int *)opt->value && *(int *)opt->value != opt->defval)
+		if (*(int *)opt->value && *(int *)opt->value != opt->defval.i)
 			return opt_command_mode_error(opt, all_opts, flags);
-		*(int *)opt->value = opt->defval;
+		*(int *)opt->value = opt->defval.i;
 		return 0;
 
 	case OPTION_STRING:
 		if (unset)
 			*(const char **)opt->value = NULL;
 		else if (opt->flags & PARSE_OPT_OPTARG && !p->opt)
-			*(const char **)opt->value = (const char *)opt->defval;
+			*(const char **)opt->value = opt->defval.s;
 		else
 			return get_arg(p, opt, flags, (const char **)opt->value);
 		return 0;
@@ -154,7 +154,7 @@ static enum parse_opt_result get_value(struct parse_opt_ctx_t *p,
 		if (unset)
 			*(const char **)opt->value = NULL;
 		else if (opt->flags & PARSE_OPT_OPTARG && !p->opt)
-			*(const char **)opt->value = (const char *)opt->defval;
+			*(const char **)opt->value = opt->defval.s;
 		else
 			err = get_arg(p, opt, flags, (const char **)opt->value);
 
@@ -190,7 +190,7 @@ static enum parse_opt_result get_value(struct parse_opt_ctx_t *p,
 			return 0;
 		}
 		if (opt->flags & PARSE_OPT_OPTARG && !p->opt) {
-			*(int *)opt->value = opt->defval;
+			*(int *)opt->value = opt->defval.i;
 			return 0;
 		}
 		if (get_arg(p, opt, flags, &arg))
@@ -207,7 +207,7 @@ static enum parse_opt_result get_value(struct parse_opt_ctx_t *p,
 			return 0;
 		}
 		if (opt->flags & PARSE_OPT_OPTARG && !p->opt) {
-			*(unsigned long *)opt->value = opt->defval;
+			*(unsigned long *)opt->value = opt->defval.i;
 			return 0;
 		}
 		if (get_arg(p, opt, flags, &arg))
